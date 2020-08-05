@@ -35,6 +35,10 @@ body {
     background: var(--color-background);
 }
 
+a {
+    text-decoration: none;
+}
+
 #root {
     display: flex;
     align-items: center;

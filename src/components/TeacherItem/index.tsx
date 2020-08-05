@@ -1,34 +1,53 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import whatsappIcon from '../../assets/images/icons/whatsapp.svg';
 
+import api from '../../services/api';
+
 import './styles.css';
 
-const TeacherItem: React.FC = () => {
+interface TeacherProps {
+    user_id: number;
+    name: string;
+    avatar: string;
+    subject: string;
+    whatsapp: string;
+    bio: string;
+    cost: string;
+}
+
+const TeacherItem: React.FC<TeacherProps> = (teacher) => {
+
+    const handleClick = useCallback(() => {
+        api.post('connections');
+    }, []);
+
     return (
         <article className="teacher-item">
             <header>
-                <img src="https://avatars1.githubusercontent.com/u/48893970?s=460&u=3a27eac4f8d8a208cb43e2b2950031ad03ff82cb&v=4" alt="avatar"/>
+                <img src={teacher.avatar} alt="avatar"/>
                 <div>
-                    <strong>Wagner Lemos</strong>
-                    <span>Química</span>
+                    <strong>{teacher.name}</strong>
+                    <span>{teacher.subject}</span>
                 </div>
             </header>
 
             <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. In molestie tortor eros, at semper eros pretium eu. Etiam bibendum interdum hendrerit. Aenean eu dolor nec tortor dapibus malesuada. Aliquam erat volutpat. Morbi nec sem porttitor, bibendum risus at, tincidunt est. Suspendisse venenatis magna vitae interdum luctus.
+            {teacher.bio}
             </p>
 
             <footer>
                 <p>
                     Preço/hora
-                    <strong>R$ 80,00</strong>
+                    <strong>R$ {teacher.cost}</strong>
                 </p>
 
-                <button type="button">
-                    <img src={whatsappIcon} alt="Whatsapp"/>
-                    Entrar em contato
-                </button>
+                <a target="_blank" href={`https://wa.me/${teacher.whatsapp}`} rel="noopener noreferrer">
+                    <button type="button" onClick={handleClick}>
+                        <img src={whatsappIcon} alt="Whatsapp"/>
+                        Entrar em contato
+                    </button>
+                </a>
             </footer>
         </article>
     );
